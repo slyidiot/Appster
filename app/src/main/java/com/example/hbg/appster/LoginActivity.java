@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -12,6 +13,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import shem.com.materiallogin.DefaultLoginView;
 import shem.com.materiallogin.DefaultRegisterView;
@@ -49,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) {
-                            PreferenceHelper.saveUserDetails(email, pass);
+                            PreferenceHelper.getInstance(LoginActivity.this).saveUserDetails(email, pass);
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         } else {
                             Toast.makeText(LoginActivity.this, "Error logging in...please try again later", Toast.LENGTH_SHORT).show();
@@ -70,8 +76,35 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()) {
-                                PreferenceHelper.saveUserDetails(email, pass);
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                PreferenceHelper.getInstance(LoginActivity.this).saveUserDetails(email, pass);
+                                try {
+                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(email.replaceAll(".", "") + "_user");
+                                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            int cat = 0;
+                                            for(DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                                                if(snapshot.getKey().equalsIgnoreCase("cat")) {
+                                                    cat = snapshot.getValue(Integer.class);
+                                                }
+                                            }
+                                            PreferenceHelper.getInstance(LoginActivity.this).saveUserInfo("", cat, "");
+                                            if(cat == 0) {
+                                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                            } else if(cat == 1) {
+                                                startActivity(new Intent(LoginActivity.this, CustActivity.class));
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                } catch (Exception e) {
+                                    //DO NOTHING
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                }
                             } else {
                                 Toast.makeText(LoginActivity.this, "Error registering...please try again later", Toast.LENGTH_SHORT).show();
                             }

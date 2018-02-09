@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="40dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <EditText
+        android:id="@+id/name_input"
+        android:layout_marginTop="20dp"
+        android:hint="Name"
+        android:inputType="text"
+        android:textColor="@color/black"
+        android:background="@android:color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <EditText
+        android:layout_below="@id/name_input"
+        android:layout_marginTop="20dp"
+        android:id="@+id/contact_input"
+        android:hint="Contact Number"
+        android:inputType="number"
+        android:textColor="@color/black"
+        android:background="@android:color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <TextView
+        android:id="@+id/pickaside"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:fontFamily="sans-serif-light"
+        android:text="Who are you?"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:layout_below="@id/contact_input"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <LinearLayout
+        android:layout_below="@id/pickaside"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/admin_btn"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="ADMIN"
+            android:textSize="10sp"
+            android:textColor="@color/black"
+            android:background="@drawable/white_shadow_bg"
+            android:layout_width="120dp"
+            android:layout_height="120dp" />
+
+        <TextView
+            android:id="@+id/cust_btn"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="CUSTOMER"
+            android:textSize="10sp"
+            android:textColor="@color/black"
+            android:background="@drawable/white_shadow_bg"
+            android:layout_width="120dp"
+            android:layout_height="120dp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/next-btn"
+        android:layout_centerHorizontal="true"
+        android:text="NEXT"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

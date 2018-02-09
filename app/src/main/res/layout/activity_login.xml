@@ -8,6 +8,8 @@
 
     <shem.com.materiallogin.MaterialLoginView
         android:id="@+id/login"
+        app:loginView="@layout/custom_login_view"
+        app:registerView="@layout/custom_register_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
