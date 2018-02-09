@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Appster</string>
+    <string name="app_name">ChefBrew</string>\
+    <string name="login_prefs">LOGIN_PREFS</string>
+    <string name="app_prefs">APP_PREFS</string>
 </resources>
